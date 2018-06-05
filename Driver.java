@@ -24,7 +24,7 @@ public class Driver {
         System.out.println("All games are ready.");
         System.out.print("Available games: ");
         // output available games
-        File file = new File("C://Users//mathcomplab.INSTRUCTION.000//Desktop//cs//src//games.txt");
+        File file = new File("E://cs//src//games.txt");
         Scanner textScan = new Scanner(file);
         String model = textScan.next();
         Integer numberOfModels = textScan.nextInt();
@@ -63,7 +63,14 @@ public class Driver {
                 currentGame.processGameMenuOptions(gameMenuOption, scan, set);
                 break;
             case 2:
-                Roulette.addPlayer();
+				if(Roulette.playerQueue.size() >= 5)
+				{
+					System.out.println("Sorry, the table is full.");
+			
+				}
+				else {
+					Roulette.addPlayer();
+				}
                 returnMain(scan, set);
                 break;
             case 3:
