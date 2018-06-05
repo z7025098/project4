@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
-public abstract class Player {
+class Player {
     private static final int RELOAD_AMOUNT = 50;
-    private static int bet, money, betType, number, winLoseAmount, betTimes, totalBet;
-    private static String name;
+    private int bet, money, betType, number, winLoseAmount, betTimes, totalBet;
+    private String name;
 
     //=====================================================================
     //  The Player constructor sets up  name and initial available money.
@@ -19,16 +19,16 @@ public abstract class Player {
     //=====================================================================
     //  Returns this player's name.
     //=====================================================================
-    public static String getName()
+    public String getName()
     {
         return name;
-    }  // method getName
+    }  // method getName 
 
 
     //=====================================================================
     //  Returns this player's current available money.
     //=====================================================================
-    public static int getMoney()
+    public int getMoney()
     {
         return money;
     }  // method getMoney
@@ -39,13 +39,13 @@ public abstract class Player {
     //=====================================================================
     //  Prompts the user and reads betting information.
     //=====================================================================
-    public static void makeBet(Scanner scan)
+    public void makeBet(Scanner scan)
     {
         
         Wheel.betOptions();
         boolean validBetType = false;
         while (!validBetType) {
-            System.out.print("Choose your bet type: ");
+            System.out.print(name + "\tChoose your bet type: ");
             betType = scan.nextInt();
             if (betType < 1 || betType > 3) {
                 System.out.println("Invalid betting type. Please re-bet again.\n");
@@ -59,7 +59,7 @@ public abstract class Player {
         {
             boolean validBetNumber = false;
             while (!validBetNumber) {
-                System.out.print("Which number to bet on: ");
+                System.out.print(name + "\tEnter the number you wish to bet on:");
                 number = scan.nextInt();
                 if (number < Wheel.MIN_NUM || number > Wheel.MAX_NUM) {
                     System.out.println("Invalid bet number. Please try again.");
@@ -89,22 +89,20 @@ public abstract class Player {
         }
     } // method makeBet
 
-    public static void payment(Wheel wheel)
+    public void payment(Wheel wheel)
     {
-        int payoffAmount = 0;
-        if (betType == 1 || betType == 2)
-            payoffAmount = Wheel.payoff(bet, betType);
-        else if (betType == 3)
-            payoffAmount = Wheel.payoff(bet, betType, number);
-        System.out.println("Payoff amount for " + name + ": " + payoffAmount + "\n");
-        money += payoffAmount;
-        winLoseAmount = winLoseAmount + payoffAmount - bet;
+    	int wins = Wheel.payoff(bet, betType, number);
+    	money = money + wins;
+    	if (wins > 0)
+    		System.out.println(name + " won " + wins + " dollars!");
+    	else
+    		System.out.println(name + " lost " + bet + " dollars!");
     }
 
     //=====================================================================
     //  Determines if the player wants to play again.
     //=====================================================================
-    public static boolean playAgain(Scanner scan)
+    public boolean playAgain(Scanner scan)
     {
         String answer;
         System.out.print (name + " Play again [y/n]? ");
@@ -118,7 +116,7 @@ public abstract class Player {
     //=====================================================================
     public String toString()
     {
-        String result = "Player: " + name + "\nmoney: " + money;
+        String result = "Player: " + name + "\tmoney: " + money + "\n";
         return result;
     }  // method toString
 }
