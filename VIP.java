@@ -3,10 +3,10 @@ public class VIP extends Player {
     private String id;
     private double cash_back;
     private static final double CASH_BACK_RATE = 0.05;
-    public VIP(int money, String id, String name)
+    public VIP(int money, String id, String first, String last)
     {
         super(money);
-        this.name = name;
+        this.name = first +" " + last;
         this.id = id;
     }
 
