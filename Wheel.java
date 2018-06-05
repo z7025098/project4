@@ -94,3 +94,4 @@ public class Wheel {
         return payoff;
     }
 }
+}
