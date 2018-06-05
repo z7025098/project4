@@ -1,8 +1,9 @@
 public class SuperVIP extends VIP {
     private int bonus;
-    public SuperVIP(int money, String id, String name)
+    private String name;
+    public SuperVIP(int money, String id, String first, String last)
     {
-        super(money, id, name);
+        super(money, id, first, last);
         bonus = 0;
     }
 
