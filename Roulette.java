@@ -7,10 +7,11 @@ public class Roulette {
     private int money;
     private boolean current;
     private String name;
-    private static Queue<Object> playerQueue = new LinkedList<>();
+    static Queue<Object> playerQueue = new LinkedList<>();
     private static Scanner scan = new Scanner(System.in);
     static Wheel wheel = new Wheel(); 
     static boolean done = false;
+    static Player player = new Player(50);
     
     public Roulette(String nm) { name = nm; }
     public static void gameMenu()
@@ -45,7 +46,7 @@ public class Roulette {
     public static void addPlayer() throws Exception{
         System.out.println("Adding player " + (playerQueue.size() + 1) + " to the game.");
         // output number of current players
-        File file = new File("C://Users//mathcomplab.INSTRUCTION.000//Desktop//cs//src//players.txt");
+        File file = new File("E://cs//src//players.txt");
         Scanner scan = new Scanner(file);
         for (int i = 0; i < playerQueue.size(); i++)
             scan.nextLine();
@@ -56,12 +57,12 @@ public class Roulette {
                 playerQueue.add(player);
                 break;
             case 1:
-                VIP VIPPlayer = new VIP(scan.nextInt(), scan.next(), scan.next());
+                VIP VIPPlayer = new VIP(scan.nextInt(), scan.next(), scan.next(),scan.next());
                 scan.nextLine();
                 playerQueue.add(VIPPlayer);
                 break;
             case 2:
-                SuperVIP SuperVIPPlayer = new SuperVIP(scan.nextInt(), scan.next(), scan.next());
+                SuperVIP SuperVIPPlayer = new SuperVIP(scan.nextInt(), scan.next(), scan.next(),scan.next());
                 scan.nextLine();
                 playerQueue.add(SuperVIPPlayer);
                 break;
@@ -91,22 +92,20 @@ public class Roulette {
         System.out.println("Shutting down all games.");
     }
 
-    public static void play() throws Exception
+    public static void play()
     {
     	Wheel.welcomeMessage();
     	do {
-    	System.out.println (Player.getName() +
-     			"\tMoney available for " + Player.getName()
-             	+ ": " + Player.getMoney());
-    	Player.makeBet(scan);
+    	System.out.println (player.toString());
+    	player.makeBet(scan);
     	
-    	Wheel.spin();
+    	wheel.spin();
     	
-    	Player.payment(wheel);
+    	player.payment(wheel);
     	
-    	done = !Player.playAgain(scan);
+    	done = !player.playAgain(scan);
     	} while (!done);
-    	//returnGameMenu();
+    	
     }
 
     public static void reportStatus()
@@ -118,14 +117,23 @@ public class Roulette {
     {
         switch(option) {
             case 1:
-                addPlayer();
+				if(playerQueue.size() >= 5)
+				{
+					System.out.println("Sorry, the set are full.");
+			
+				}
+				else {
+					addPlayer();
+				}
                 returnGameMenu(scan, set);
                 break;
             case 2:
                 play();
+                returnGameMenu(scan, set);
                 break;
             case 3:
                 reportStatus();
+                returnGameMenu(scan, set);
                 break;
             case 4:
                 Driver.returnMain(scan, set);
